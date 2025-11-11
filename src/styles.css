@@ -1,1 +1,116 @@
-/* You can add global styles to this file, and also import other style files */
+/* ===========================
+   GLOBÁLIS STÍLUSOK
+   =========================== */
+
+/* 1. Alapértelmezett (Sötét Mód) változók */
+:root {
+  --bg: #0f1720;
+  --card: #0b1a26;
+  --muted: #9fb7d9;
+  --accent: #0ea36d;
+  --accent-2: #1e88e5;
+  --danger: #e74c3c;
+  --surface: #08101a;
+  --text-light: #e6eef6;
+  --glass: rgba(255, 255, 255, 0.02);
+  --shadow: 0 12px 36px rgba(2, 6, 23, 0.6);
+  --transition: 180ms;
+}
+
+/* 2. Alap HTML és Body stílusok */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-light);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 3. Globális app konténer */
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 36px;
+  box-sizing: border-box;
+}
+
+/* 4. Globális gomb stílusok (a .btn-clear stb. mehet a komponensbe) */
+.btn {
+  background: linear-gradient(180deg, var(--accent), #0b8a5a);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(14, 163, 109, 0.12);
+  transition: transform .12s ease;
+}
+
+.btn.ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #dbeafe;
+  box-shadow: none;
+}
+
+.btn.small {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+
+/* ===========================
+   LIGHT MODE FELÜLÍRÁSOK
+   =========================== */
+
+/* 5. A Light Mode felülírásai (EZ A LÉNYEG) */
+.light-mode {
+  --bg: #f5f7fb;
+  --card: #fff;
+  --muted: #475569;
+  --accent: #0b6fd6;
+  --accent-2: #0b907f;
+  color: #163048;
+  background: var(--bg);
+}
+
+.light-mode .card {
+  background: var(--card);
+  /* A vanilla kódban 'color: var(--text-light);' volt, ez valószínűleg hiba, 
+     így a fenti 'color: #163048;' öröklődik helyesen. */
+  border: 1px solid rgba(2, 6, 23, 0.04);
+}
+
+.light-mode input,
+.light-mode select,
+.light-mode textarea {
+  background: #fff;
+  color: #163048;
+  border: 1px solid rgba(2, 6, 23, 0.06);
+  box-shadow: none;
+  transform: none;
+}
+
+/* Külön a select/option-re, ahogy az eredetiben volt */
+.light-mode select,
+.light-mode option {
+  background: #fff;
+  color: #163048;
+}
+
+
+.light-mode #logEntries div {
+  background: rgba(2, 6, 23, 0.03);
+  color: #163048;
+}
+

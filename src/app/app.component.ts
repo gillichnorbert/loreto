@@ -5,7 +5,7 @@ import { LogService } from './services/log.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   logs$: Observable<string[]>;
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   
   ngOnInit(): void {
     // (Opcionális) Alkalmazzuk a mentett témát induláskor
-    if (localStorage.getItem('theme') === 'light') {
+    if (localStorage.getItem('theme') === 'dark') {
         this.toggleMode(true);
     }
   }
