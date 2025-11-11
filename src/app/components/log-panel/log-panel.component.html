@@ -1,0 +1,14 @@
+<div class="log-panel" [class.open]="isOpen" [attr.aria-hidden]="!isOpen">
+  <h2>Registro de actividad</h2>
+  
+  <div class="log-buttons-top">
+    <button (click)="onClear()" class="btn btn-clear">🧹 Limpiar registro</button>
+    <button (click)="onClose()" class="btn btn-close">← Cerrar</button>
+  </div>
+  
+  <div id="logEntries" aria-live="polite">
+    <div *ngFor="let logEntry of logs">
+      {{ logEntry }}
+    </div>
+  </div>
+</div>
