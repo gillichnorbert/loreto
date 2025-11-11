@@ -39,7 +39,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+
+            ]
           },
           "configurations": {
             "production": {
@@ -97,7 +99,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
+            ]
           }
         }
       }

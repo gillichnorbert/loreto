@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
+import * as XLSX from 'xlsx';
 import { Report, ReportDto } from './report.model';
 import { ReportService } from './report.service';
 import { LogService } from './log.service';
 
-// Importáljuk a könyvtárakat
-import * as XLSX from 'xlsx';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable'; // Ez automatikusan kiterjeszti a jsPDF prototípust
+// ⚠️ pdfmake import Angular-kompatibilis módon:
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-// Az autotable típusának kiterjesztése (typescript trükk)
-declare module 'jspdf' {
-  interface jsPDF {
-    autoTable: (options: any) => jsPDF;
-  }
-}
+// Assign vfs from the imported pdfFonts; some builds expose vfs directly, others under pdfMake
+(pdfMake as any).vfs = (pdfFonts as any).vfs || (pdfFonts as any).pdfMake?.vfs;
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +21,6 @@ export class ExportService {
     private logService: LogService
   ) { }
 
-  // --- 1. CSV EXPORT ---
   public exportToCSV(): void {
     const reports = this.reportService.getReportsSnapshot();
     if (reports.length === 0) {
@@ -48,60 +43,142 @@ export class ExportService {
     this.logService.addLog('Datos exportados a CSV');
   }
 
-  // --- 2. PDF EXPORT ---
-  public async generateClientPDF(reportsArray: Report[]) {
-    if (!reportsArray || reportsArray.length === 0) {
-      alert('No hay reportes para exportar.');
-      return;
-    }
-    
-    try {
-      const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-
-      for (let i = 0; i < reportsArray.length; i++) {
-        const r = reportsArray[i];
-        if (i > 0) doc.addPage();
-        
-        // ... (A teljes PDF generáló logika a vanilla JS-ből másolva) ...
-        const marginLeft = 40;
-        let y = 40;
-
-        doc.setFontSize(18);
-        doc.setFont('helvetica', 'bold');
-        doc.text('DEVOLUCIONES GRUPO ETICALIDAD', marginLeft, y);
-        // ... (többi doc.text, doc.line, doc.autoTable hívás) ...
-        const tableBody = [
-            ['ID del reporte', r.id || ''],
-            ['Número de pedido', r.orderNumber || ''],
-            ['Cliente', r.client || ''],
-            ['Marca', r.brand || ''],
-            ['Pieza', r.part || ''],
-            ['Motivo de devolución', r.reason || ''],
-            ['Estado', r.status || ''],
-            ['Comentario interno', r.comment || '']
-        ];
-        doc.autoTable({
-            startY: y + 20, // Csak egy példa, igazítsd a vanilla kódhoz
-            theme: 'grid',
-            head: [['Campo', 'Valor']],
-            body: tableBody,
-            styles: { font: 'helvetica', fontSize: 10, cellPadding: 6 },
-            headStyles: { fillColor: [40, 40, 40], textColor: 255, fontStyle: 'bold' },
-            columnStyles: { 0: { cellWidth: 160 }, 1: { cellWidth: 330 } }
-        });
-      }
-
-      const fileName = reportsArray.length === 1 ? `Reporte_${reportsArray[0].id || 'sinID'}.pdf` : `Reportes_${new Date().toISOString().slice(0,10)}.pdf`;
-      doc.save(fileName);
-      this.logService.addLog(`Export cliente PDF (${reportsArray.length}): ${fileName}`);
-    } catch (err) {
-      console.error('PDF generálási hiba', err);
-      this.logService.addLog('❌ Error al generar PDF cliente.');
-      alert('Error al generar el PDF. Revisa la consola.');
-    }
+public async generateClientPDF(reportsArray: Report[]) {
+  if (!reportsArray || reportsArray.length === 0) {
+    alert('Nincs elérhető riport az exportáláshoz.');
+    return;
   }
 
-  // --- 3. XLSX/CSV IMPORT ---
+  try {
+    const docDefinition: any = {
+      pageSize: 'A4',
+      pageMargins: [40, 60, 40, 60],
+      content: [],
+      styles: {
+        header: {
+          fontSize: 20,
+          bold: true,
+          alignment: 'center',
+          margin: [0, 0, 0, 10]
+        },
+        subheader: {
+          fontSize: 11,
+          color: '#555',
+          alignment: 'center',
+          margin: [0, 0, 0, 20]
+        },
+        tableHeader: {
+          bold: true,
+          fillColor: '#000000',
+          color: '#ffffff'
+        },
+        reportTable: {
+          margin: [0, 15, 0, 15]
+        },
+        footer: {
+          fontSize: 9,
+          italics: true,
+          color: '#666',
+          alignment: 'center',
+          margin: [0, 30, 0, 0]
+        },
+        signature: {
+          margin: [0, 40, 0, 0],
+          alignment: 'left'
+        }
+      }
+    };
+
+    for (let i = 0; i < reportsArray.length; i++) {
+      const r = reportsArray[i];
+
+      // Fejléc + dátum
+      docDefinition.content.push(
+        { text: 'DEVOLUCIONES GRUPO ETICALIDAD', style: 'header' },
+        { text: `Fecha: ${new Date().toLocaleString()}`, style: 'subheader' }
+      );
+
+      // Táblázat adatok
+      const tableBody = [
+        [
+          { text: 'Campo', style: 'tableHeader' },
+          { text: 'Valor', style: 'tableHeader' }
+        ],
+        ['ID del reporte', r.id || ''],
+        ['Número de pedido', r.orderNumber || ''],
+        ['Cliente', r.client || ''],
+        ['Marca', r.brand || ''],
+        ['Pieza', r.part || ''],
+        ['Motivo de devolución', r.reason || ''],
+        ['Estado', r.status || ''],
+        ['Comentario interno', r.comment || '']
+      ];
+
+      // Táblázat megjelenés
+      docDefinition.content.push({
+        style: 'reportTable',
+        table: {
+          headerRows: 1,
+          widths: ['30%', '70%'],
+          body: tableBody
+        },
+        layout: {
+          fillColor: function (rowIndex: number) {
+            return rowIndex % 2 === 0 ? null : '#f9f9f9';
+          },
+          hLineColor: '#ccc',
+          vLineColor: '#ccc',
+          hLineWidth: function (i: number, node: any) {
+            return (i === 0 || i === node.table.body.length) ? 1 : 0.5;
+          },
+          vLineWidth: function () { return 0.5; }
+        }
+      });
+
+      // Aláírás + vonal
+      docDefinition.content.push({
+        columns: [
+          {
+            width: '50%',
+            stack: [
+              { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 200, y2: 0, lineWidth: 1 }] },
+              { text: 'Firma del cliente / representante', margin: [0, 5, 0, 0] }
+            ],
+            margin: [0, 40, 0, 0]
+          },
+          { width: '50%', text: '' }
+        ]
+      });
+
+      // Lábléc
+      docDefinition.content.push({
+        text:
+          'Documento generado automáticamente por el sistema interno de Grupo Eticalidad.\nProhibida su modificación o distribución sin autorización.',
+        style: 'footer'
+      });
+
+      if (i < reportsArray.length - 1) {
+        docDefinition.content.push({ text: '', pageBreak: 'after' });
+      }
+    }
+
+    const fileName =
+      reportsArray.length === 1
+        ? `Reporte_${reportsArray[0].id || 'sinID'}.pdf`
+        : `Reportes_${new Date().toISOString().slice(0, 10)}.pdf`;
+
+    (pdfMake as any).createPdf(docDefinition).download(fileName);
+
+    this.logService.addLog(`Export cliente PDF (${reportsArray.length}): ${fileName}`);
+  } catch (err) {
+    console.error('PDF generálási hiba (pdfmake)', err);
+    this.logService.addLog('❌ Error al generar PDF cliente (pdfmake).');
+    alert('Error al generar el PDF. Revisa la consola.');
+  }
+}
+
+
+
   public async importFromFile(file: File): Promise<void> {
     if (!file) return;
     
@@ -121,7 +198,6 @@ export class ExportService {
         let imported = 0;
         json.forEach(row => {
           const mapped = this.mapRowToReport(row);
-          // A saveReport már kezeli az update-et és a create-et is
           this.reportService.saveReport(mapped); 
           imported++;
         });
@@ -160,7 +236,6 @@ export class ExportService {
       }
   }
 
-  // A vanilla JS-ből átemelt segédfüggvény
   private mapRowToReport(row: any): Report {
     const out: ReportDto = {
         id: '', orderNumber: '', client: '', brand: '', part: '', 
@@ -185,12 +260,11 @@ export class ExportService {
     out.comment = String(pick('Comentario interno', 'comment', 'notes') || '').trim();
     out.timestamp = String(pick('Fecha', 'fecha', 'timestamp', 'date') || '').trim();
     
-    // Ha nincs ID, generálunk egyet
     if (!out.id) {
         out.id = this.reportService.generateID(out.brand);
     }
     if (!out.timestamp) {
-        out.timestamp = new Date().toISOString(); // Vagy a nowExcel() formátum
+        out.timestamp = new Date().toISOString();
     }
 
     return out as Report;

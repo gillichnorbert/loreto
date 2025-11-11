@@ -24,7 +24,7 @@ export class ReportService {
 
   private persistReports(reports: Report[]): void {
     localStorage.setItem('reports', JSON.stringify(reports));
-    this.reportsSubject.next(reports); // Értesítjük a feliratkozókat
+    this.reportsSubject.next(reports);
   }
 
   private persistArchive(): void {
@@ -32,7 +32,7 @@ export class ReportService {
   }
   
   public getReportsSnapshot(): Report[] {
-    return this.reportsSubject.value; // Az aktuális érték lekéréséhez
+    return this.reportsSubject.value; 
   }
 
   public generateID(brand: string = ''): string {

@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   
   ngOnInit(): void {
     // (Opcionális) Alkalmazzuk a mentett témát induláskor
-    if (localStorage.getItem('theme') === 'dark') {
+    if (localStorage.getItem('theme') === 'light') {
         this.toggleMode(true);
     }
   }
