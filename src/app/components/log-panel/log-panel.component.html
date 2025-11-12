@@ -1,15 +1,4 @@
-<!-- 
-  JAVÍTÁS:
-  Az egészet egy <ng-container>-be csomagoltuk, ami *ngIf="isOpen" direktívát kapott.
-  Így a panel és a háttere (backdrop) TELJESEN ELTŰNIK a DOM-ból, amikor zárva van,
-  és nem blokkolja a kattintásokat.
-
-  Amikor az *ngIf beilleszti őket (mert isOpen = true), 
-  manuálisan hozzáadjuk a 'show' osztályt, hogy azonnal láthatóak legyenek.
--->
 <ng-container *ngIf="isOpen">
-
-  <!-- Bootstrap Offcanvas (a régi .log-panel helyett) -->
   <div class="offcanvas offcanvas-start show" 
        tabindex="-1" 
        id="logPanelOffcanvas" 
@@ -18,7 +7,7 @@
     
     <div class="offcanvas-header border-bottom">
       <h5 class="offcanvas-title" id="logPanelLabel">📋 Registro de actividad</h5>
-      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+      <button type="button" class="btn-close" (click)="onClose()" ></button>
     </div>
     
     <div class="offcanvas-body">

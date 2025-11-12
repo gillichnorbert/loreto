@@ -1,11 +1,11 @@
 <!-- 1. Fő Kártya (Bootstrap Card) -->
-<div class="card shadow-lg" role="main" aria-labelledby="pageTitle">
+<div class="container" role="main" aria-labelledby="pageTitle">
   
   <!-- 2. Kártya Fejléc -->
   <div class="card-header text-center ">
     <!-- A logo animációt megtartjuk, mert az egyedi és menő -->
     <div class="logo-wrapper py-2">
-      <img src="what.png" alt="">
+      <img src="logo-eticalidad.png" alt="logo" class="logo">
     </div>
   </div>
 
@@ -83,19 +83,20 @@
           <textarea id="comment" class="form-control" placeholder="Notas internas..." formControlName="comment" rows="4"></textarea>
         </div>
 
-        <!-- Elválasztó -->
-        <div class="col-12"><hr class="my-3"></div>
 <!-- Létező riport választó -->
         <div class="col-12">
           <label for="selectReport" class="form-label">Seleccionar reporte existente</label>
-          <select id="selectReport" class="form-select form-select-lg" [value]="selectedReportId" (change)="onReportSelected($event)">
+          <select id="selectReport" class="form-select" [value]="selectedReportId" (change)="onReportSelected($event)">
             <option value="">-- Ninguno --</option>
             <option *ngFor="let report of (reports$ | async)" [value]="report.id">
               {{ report.id }} — {{ report.orderNumber || 'sin pedido' }}
             </option>
           </select>
         </div>
-
+        <div class="col-12">
+          <label for="clientEmail" class="form-label form-label-sm">Email del Cliente</label>
+          <input id="clientEmail" type="email" class="form-control form-control-sm" placeholder="cliente@ejemplo.com" formControlName="clientEmail">
+        </div>
         <!-- Gombok (Actions) -->
         <div class="col-12">
           <div class="d-flex flex-wrap align-items-center gap-2">
@@ -103,6 +104,7 @@
             <button type="button" (click)="onSave()" class="btn btn-success btn-lg px-4">💾 Guardar</button>
             <button type="button" (click)="onDelete()" class="btn btn-outline-danger">❌ Borrar</button>
             <button type="button" (click)="onClearAll()" class="btn btn-outline-secondary btn-sm">🧹 Borrar todo</button>
+            <button type="button" (click)="onEmailReport()" class="btn btn-outline-info" title="Enviar por Email">📧 Email</button>
             
             <!-- Riportok száma (jobbra igazítva) -->
             <span class="badge text-bg-light ms-auto fs-6 border" style="padding: 0.6em 0.8em;">
@@ -125,8 +127,6 @@
            <button type="button" (click)="onArchive()" class="btn btn-outline-secondary btn-sm w-100">🗄️ Archivado automático</button>
          </div>
 
-        <!-- Elválasztó -->
-        <div class="col-12"><hr class="my-3"></div>
 
         
       </div>

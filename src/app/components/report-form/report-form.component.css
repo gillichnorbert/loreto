@@ -1,23 +1,14 @@
-/* Card */
-.card {
-  width: 980px;
-  max-width: 100%;
-  border-radius: 14px;
-  padding: 20px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  transition: transform var(--transition);
-}
-
 .card-header {
     border-bottom: none;
     background: transparent;
     padding: 0;
-    margin-bottom: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.container {
+  max-height: 100vh;
 }
 
 .card-header img {
@@ -46,7 +37,6 @@ header {
   width: 260px;
   display: block;
   margin: 0 auto 8px;
-  animation: fadeIn 1.2s ease, logoGlow 4s ease-in-out infinite alternate;
   filter: drop-shadow(0 0 8px rgba(0, 128, 255, 0.6)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
 }
 
@@ -62,15 +52,7 @@ header {
   }
 }
 
-@keyframes logoGlow {
-  from {
-    filter: drop-shadow(0 0 6px rgba(0, 128, 255, 0.5)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
-  }
 
-  to {
-    filter: drop-shadow(0 0 12px rgba(0, 170, 255, 0.9)) drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
-  }
-}
 
 h1 {
   margin: 6px 0 0;
@@ -91,7 +73,7 @@ input[type="text"],
 select,
 textarea {
   width: 100%;
-  padding: 10px 12px;
+  padding: 5px 5px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.04);
   background: var(--glass);
@@ -106,8 +88,21 @@ input[readonly] {
 }
 
 textarea {
-  min-height: 88px;
+  min-height: 56px;
   resize: vertical;
+}
+
+.btn:active {
+  color: #043321;
+  box-shadow: inset 0 0 10px #00000068;
+}
+
+.btn:hover {
+    color: #043321;
+}
+
+select {
+  padding: 2px 8px;
 }
 
 input:focus,
@@ -152,7 +147,7 @@ option {
 /* Bottom selector */
 #selectReport {
   width: 100%;
-  padding: 10px 12px;
+  padding: 2px 8px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.04);
   background: #222;

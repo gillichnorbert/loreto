@@ -4,7 +4,6 @@ import { Report, ReportDto } from './report.model';
 import { ReportService } from './report.service';
 import { LogService } from './log.service';
 
-// ⚠️ pdfmake import Angular-kompatibilis módon:
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 

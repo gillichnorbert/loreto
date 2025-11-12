@@ -14,13 +14,12 @@
 /* Log panel (left slide) */
 .log-toggle {
   position: fixed;
-  left: 12px;
   top: 86px;
   z-index: 1400;
   background: var(--accent-2);
   color: white;
   padding: 10px 12px;
-  border-radius: 10px 0 0 10px;
+  border-radius: 0px 10px 10px 0px;
   cursor: pointer;
   box-shadow: 0 8px 30px rgba(30, 136, 229, 0.12);
   border: none;

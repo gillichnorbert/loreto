@@ -33,6 +33,7 @@ export class ReportFormComponent implements OnInit {
     this.reportForm = this.fb.group({
       id: [{ value: '', disabled: true }],
       client: [''],
+      clientEmail: [''],
       orderNumber: [''],
       brand: [''],
       part: [''],
@@ -50,6 +51,7 @@ export class ReportFormComponent implements OnInit {
     this.reportForm.reset({
       id: { value: this.reportService.generateID(), disabled: true },
       client: '',
+      clientEmail: '', // ⭐️ HOZZÁADVA
       orderNumber: '',
       brand: '',
       part: '',
@@ -135,5 +137,53 @@ export class ReportFormComponent implements OnInit {
     // Dátum szerint rendezve, ahogy az eredeti kódban
     const sorted = [...allReports].sort((a, b) => (a.timestamp || '').localeCompare(b.timestamp || ''));
     this.exportService.generateClientPDF(sorted);
+  }
+
+  onEmailReport(): void {
+    // 1. Ellenőrizzük, van-e kiválasztott riport
+    if (!this.selectedReportId) {
+      alert('Seleccione un reporte para enviar por email.');
+      return;
+    }
+
+    const report = this.reportForm.getRawValue() as Report;
+    if (!report) {
+      alert('Reporte no encontrado.');
+      return;
+    }
+
+    const subject = `Detalles de la Devolución: ${report.orderNumber || report.id}`;
+    
+
+    const body = `
+Hola,
+
+Adjunto los detalles de la devolución para el pedido: ${report.orderNumber || ''}
+
+- Cliente: ${report.client || ''}
+- Pieza: ${report.part || ''}
+- Motivo: ${report.reason || ''}
+- Estado: ${report.status || ''}
+
+Comentario:
+${report.comment || 'N/A'}
+
+
+
+Saludos,
+Eticalidad
+`;
+
+    
+    const emailTo = this.reportForm.get('clientEmail')?.value || '';
+    const mailtoLink = `mailto:${encodeURIComponent(emailTo)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    
+    this.exportService.generateClientPDF([report]);
+
+    
+    setTimeout(() => {
+      window.location.href = mailtoLink;
+    }, 500);
   }
 }

@@ -12,6 +12,7 @@ export class LogPanelComponent {
   @Output() close = new EventEmitter<void>();
   @Output() clear = new EventEmitter<void>();
 
+
   onClose(): void {
     this.close.emit();
   }
