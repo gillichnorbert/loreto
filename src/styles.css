@@ -38,7 +38,7 @@ body {
   box-sizing: border-box;
 }
 
-/* 4. Globális gomb stílusok (a .btn-clear stb. mehet a komponensbe) */
+/* 4. Globális gomb stílusok */
 .btn {
   background: linear-gradient(180deg, var(--accent), #0b8a5a);
   color: white;
@@ -51,10 +51,11 @@ body {
   transition: transform .12s ease;
 }
 
+/* JAVÍTVA: color: #dbeafe; (nem #000) */
 .btn.ghost {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  color: #dbeafe;
+  color: #dbeafe; 
   box-shadow: none;
 }
 
@@ -68,12 +69,20 @@ body {
   transform: translateY(1px);
 }
 
+/* 5. Alapértelmezett (Sötét mód) label stílus */
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: #cfe6ff;
+  font-weight: 600;
+  font-size: 13px;
+}
 
 /* ===========================
    LIGHT MODE FELÜLÍRÁSOK
    =========================== */
 
-/* 5. A Light Mode felülírásai (EZ A LÉNYEG) */
+/* 6. A Light Mode felülírásai */
 .light-mode {
   --bg: #f5f7fb;
   --card: #fff;
@@ -84,33 +93,43 @@ body {
   background: var(--bg);
 }
 
+/* Light mode gomb felülírása */
+.light-mode .btn.ghost {
+  color: #0b6fd6; /* Vagy egy másik sötét szín, ami passzol a light mode-hoz */
+  border: 1px solid rgba(2, 6, 23, 0.06);
+}
+
+/* Light mode kártya */
 .light-mode .card {
   background: var(--card);
-  /* A vanilla kódban 'color: var(--text-light);' volt, ez valószínűleg hiba, 
-     így a fenti 'color: #163048;' öröklődik helyesen. */
   border: 1px solid rgba(2, 6, 23, 0.04);
 }
 
+/* Light mode űrlap elemek */
 .light-mode input,
 .light-mode select,
 .light-mode textarea {
   background: #fff;
-  color: #163048;
+  color: #fff;
   border: 1px solid rgba(2, 6, 23, 0.06);
   box-shadow: none;
   transform: none;
 }
 
-/* Külön a select/option-re, ahogy az eredetiben volt */
+/* Light mode label */
+.light-mode label {
+  color: #475569; /* Sötétebb, mint a fekete, jobban illik */
+}
+
+/* Light mode select opciók */
 .light-mode select,
 .light-mode option {
   background: #fff;
   color: #163048;
 }
 
-
+/* Light mode log bejegyzések */
 .light-mode #logEntries div {
   background: rgba(2, 6, 23, 0.03);
   color: #163048;
 }
-

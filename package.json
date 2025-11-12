@@ -1,12 +1,16 @@
 {
-  "name": "loretomotor",
+  "name": "Eticalidad",
   "version": "0.0.0",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:electron": "ng build --base-href ./",
+    "start:electron": "npm run build:electron && electron .",
+    "package:electron": "npm run build:electron && electron-builder"
   },
   "private": true,
   "dependencies": {
@@ -36,6 +40,8 @@
     "@types/jspdf": "^2.0.0",
     "@types/pdfmake": "^0.2.12",
     "@types/xlsx": "^0.0.36",
+    "electron": "^39.1.2",
+    "electron-builder": "^26.0.12",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -43,5 +49,35 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.5.2"
+  },
+  "build": {
+    "appId": "com.loretomotor.devoluciones",
+    "productName": "LoretoMotor Devoluciones",
+    "copyright": "Copyright © 2024 LoretoMotor",
+    "files": [
+      "main.js",
+      "dist/loretomotor/browser/**/*"
+    ],
+    "directories": {
+      "output": "release/"
+    },
+    "win": {
+      "icon": "build/icon.png",
+      "target": "nsis"
+    },
+    "mac": {
+      "icon": "build/icon.png",
+      "target": "dmg"
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "target": "AppImage"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/icon.png",
+      "uninstallerIcon": "build/icon.png"
+    }
   }
 }

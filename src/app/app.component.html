@@ -1,13 +1,28 @@
-<div class="app">
-  <div class="top-controls" aria-hidden="true">
-    <button (click)="toggleMode()" class="btn small" title="Alternar modo">{{ modeLabel }}</button>
-  </div>
+<!-- 1. Téma váltó (fix pozícióban) -->
+<!-- <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+  <button (click)="toggleMode()" class="btn btn-outline-primary btn-sm shadow-sm" title="Alternar modo">
+    {{ modeLabel }}
+  </button>
+</div> -->
 
-  <app-report-form (reportSaved)="onReportSaved()"></app-report-form>
+<!-- 2. Fő App Konténer -->
+<div class="container-xl my-4 my-md-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-11 col-xl-10">
+      
+      <!-- Ide töltődik be az űrlap komponens -->
+      <app-report-form (reportSaved)="onReportSaved()"></app-report-form>
+
+    </div>
+  </div>
 </div>
 
-<button class="log-toggle" (click)="toggleLog(true)" [attr.aria-expanded]="isLogOpen">📋 Log</button>
+<!-- 3. Log Panel Kapcsoló Gomb -->
+<button class="log-toggle btn btn-info shadow" (click)="toggleLog(true)" [attr.aria-expanded]="isLogOpen">
+  📋 <span class="d-none d-sm-inline ms-1">Registro</span>
+</button>
 
+<!-- 4. Log Panel (Bootstrap Offcanvas váltja a régi CSS-t) -->
 <app-log-panel
   [isOpen]="isLogOpen"
   [logs]="logs$ | async" 
@@ -15,6 +30,17 @@
   (clear)="onClearLog()">
 </app-log-panel>
 
-<div class="save-flash" [class.show]="showSaveFlash" aria-hidden="true">
-  <div class="flash-element">✔️ Reporte guardado</div>
+<!-- 5. Mentés Villanás (Bootstrap Toast) -->
+<div class="toast-container position-fixed top-50 start-50 translate-middle p-3" style="z-index: 2000;">
+  <div class="toast align-items-center text-bg-success border-0 shadow" 
+       [class.show]="showSaveFlash" 
+       role="alert" 
+       aria-live="assertive" 
+       aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body fs-6">
+        ✔️ Reporte guardado
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,368 +1,67 @@
+/* Controls */
+.top-controls {
+  /* Ez egy trükk, hogy a gomb a kártya felett/mellett legyen */
+  position: absolute;
+  top: 20px;
+  right: calc(50% - 490px + 20px); /* Igazítsd a kártya méretéhez */
+  z-index: 10;
+}
 
-    :root {
-      --bg: #0f1720;
-      --card: #0b1a26;
-      --muted: #9fb7d9;
-      --accent: #0ea36d;
-      --accent-2: #1e88e5;
-      --danger: #e74c3c;
-      --surface: #08101a;
-      --text-light: #e6eef6;
-      --glass: rgba(255, 255, 255, 0.02);
-      --shadow: 0 12px 36px rgba(2, 6, 23, 0.6);
-      --transition: 180ms;
-    }
+.form-control {
+    color: #fff;
+}
 
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      font-family: Roboto, "Segoe UI", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text-light);
-      -webkit-font-smoothing: antialiased;
-    }
+/* Log panel (left slide) */
+.log-toggle {
+  position: fixed;
+  left: 12px;
+  top: 86px;
+  z-index: 1400;
+  background: var(--accent-2);
+  color: white;
+  padding: 10px 12px;
+  border-radius: 10px 0 0 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(30, 136, 229, 0.12);
+  border: none;
+  font-weight: 700;
+}
 
-    .app {
-      min-height: 100vh;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 36px;
-      box-sizing: border-box;
-    }
+/* Save flash */
+.save-flash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
 
-    /* Card */
-    .card {
-      width: 980px;
-      max-width: 100%;
-      border-radius: 14px;
-      padding: 20px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      transition: transform var(--transition);
-    }
+.flash-element {
+  background: linear-gradient(90deg, rgba(14, 163, 109, 0.14), rgba(30, 136, 229, 0.08));
+  padding: 14px 22px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 12px 36px rgba(2, 6, 23, 0.5);
+  opacity: 0;
+  transform: translateY(-8px) scale(.98);
+  transition: all 380ms cubic-bezier(.2, .9, .2, 1);
+}
 
-    .card:hover {
-      transform: translateY(-3px);
-    }
+.save-flash.show .flash-element {
+  opacity: 1;
+  transform: none;
+}
 
-    /* Header + logo */
-    header {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .logo {
-      width: 260px;
-      display: block;
-      margin: 0 auto 8px;
-      animation: fadeIn 1.2s ease, logoGlow 4s ease-in-out infinite alternate;
-      filter: drop-shadow(0 0 8px rgba(0, 128, 255, 0.6)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-8px)
-      }
-
-      to {
-        opacity: 1;
-        transform: none
-      }
-    }
-
-    @keyframes logoGlow {
-      from {
-        filter: drop-shadow(0 0 6px rgba(0, 128, 255, 0.5)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
-      }
-
-      to {
-        filter: drop-shadow(0 0 12px rgba(0, 170, 255, 0.9)) drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
-      }
-    }
-
-    h1 {
-      margin: 6px 0 0;
-      font-size: 20px;
-      letter-spacing: 0.6px;
-    }
-
-    /* Controls */
-    .top-controls {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .btn {
-      background: linear-gradient(180deg, var(--accent), #0b8a5a);
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      box-shadow: 0 6px 18px rgba(14, 163, 109, 0.12);
-      transition: transform .12s ease;
-    }
-
-    .btn.ghost {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: #dbeafe;
-      box-shadow: none;
-    }
-
-    .btn.small {
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 13px;
-    }
-
-    .btn:active {
-      transform: translateY(1px);
-    }
-
-    /* Form grid */
-    form#returnForm {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px 18px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      color: #cfe6ff;
-      font-weight: 600;
-      font-size: 13px;
-    }
-
-    input[type="text"],
-    select,
-    textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      background: var(--glass);
-      color: var(--text-light);
-      font-size: 14px;
-      transition: box-shadow .14s ease, border-color .14s ease, transform .14s ease;
-    }
-
-    input[readonly] {
-      background: rgba(255, 255, 255, 0.01);
-      color: #9fb7d9;
-    }
-
-    textarea {
-      min-height: 88px;
-      resize: vertical;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      box-shadow: 0 10px 28px rgba(14, 163, 109, 0.12);
-      border-color: rgba(14, 163, 109, 0.9);
-      transform: translateY(-2px);
-      outline: none;
-    }
-
-    /* Select / option kontraszt (sötét/világos) */
-    select,
-    option {
-      background: #222;
-      color: var(--text-light);
-    }
-
-    .light-mode select,
-    .light-mode option {
-      background: #fff;
-      color: #163048;
-    }
-
-    .full {
-      grid-column: 1 / -1;
-    }
-
-    .actions {
-      grid-column: 1 / -1;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-top: 6px;
-    }
-
-    .report-count {
-      margin-left: auto;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 8px 12px;
-      border-radius: 10px;
-      color: #cfe6ff;
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    /* Bottom selector */
-    #selectReport {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      background: #222;
-      color: var(--text-light);
-    }
-
-    /* Log panel (left slide) */
-    .log-toggle {
-      position: fixed;
-      left: 12px;
-      top: 86px;
-      z-index: 1400;
-      background: var(--accent-2);
-      color: white;
-      padding: 10px 12px;
-      border-radius: 10px 0 0 10px;
-      cursor: pointer;
-      box-shadow: 0 8px 30px rgba(30, 136, 229, 0.12);
-      border: none;
-      font-weight: 700;
-    }
-
-    .log-panel {
-      position: fixed;
-      left: -440px;
-      top: 0;
-      height: 100%;
-      width: 440px;
-      background: linear-gradient(180deg, #071018, #0b1620);
-      color: var(--text-light);
-      z-index: 1500;
-      transition: left .28s cubic-bezier(.2, .9, .2, 1);
-      padding: 22px;
-      box-shadow: 8px 0 40px rgba(2, 6, 23, 0.6);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .log-panel.open {
-      left: 0;
-    }
-
-    .log-buttons-top {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      position: sticky;
-      top: 0;
-      background: transparent;
-      padding-bottom: 8px;
-      z-index: 10;
-    }
-
-    .btn-clear {
-      background: linear-gradient(180deg, var(--danger), #c23b34);
-    }
-
-    .btn-close {
-      background: linear-gradient(180deg, var(--accent), #136fbf);
-    }
-
-    #logEntries {
-      overflow: auto;
-      flex: 1 1 auto;
-      padding-right: 6px;
-      margin-bottom: 8px;
-      font-size: 13px;
-      color: #cfe6ff;
-    }
-
-    #logEntries div {
-      padding: 8px 10px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    /* Save flash */
-    .save-flash {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-    }
-
-    .flash-element {
-      background: linear-gradient(90deg, rgba(14, 163, 109, 0.14), rgba(30, 136, 229, 0.08));
-      padding: 14px 22px;
-      border-radius: 12px;
-      color: white;
-      font-weight: 700;
-      box-shadow: 0 12px 36px rgba(2, 6, 23, 0.5);
-      opacity: 0;
-      transform: translateY(-8px) scale(.98);
-      transition: all 380ms cubic-bezier(.2, .9, .2, 1);
-    }
-
-    .save-flash.show .flash-element {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* Light mode overrides */
-    .light-mode {
-      --bg: #f5f7fb;
-      --card: #fff;
-      --muted: #475569;
-      --accent: #0b6fd6;
-      --accent-2: #0b907f;
-      color: #163048;
-      background: var(--bg);
-    }
-
-    .light-mode .card {
-      background: var(--card);
-      color: var(--text-light);
-      border: 1px solid rgba(2, 6, 23, 0.04);
-    }
-
-    .light-mode input,
-    .light-mode select,
-    .light-mode textarea {
-      background: #fff;
-      color: #163048;
-      border: 1px solid rgba(2, 6, 23, 0.06);
-      box-shadow: none;
-      transform: none;
-    }
-
-    .light-mode #logEntries div {
-      background: rgba(2, 6, 23, 0.03);
-      color: #163048;
-    }
-
-    /* Responsive */
-    @media (max-width:980px) {
-      form#returnForm {
-        grid-template-columns: 1fr;
-      }
-
-      .card {
-        width: 96%;
-      }
-
-      .log-panel {
-        width: 100%;
-        left: -110%;
-      }
-    }
+/* A top-controls pozíciója mobilon */
+@media (max-width:980px) {
+  .top-controls {
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+    padding: 0 5%;
+  }
+}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Report } from './report.model';
-import { LogService } from './log.service'; // Szükségünk van rá a logoláshoz
+import { LogService } from './log.service';
 
 @Injectable({
   providedIn: 'root'

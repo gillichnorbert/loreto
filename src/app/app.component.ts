@@ -20,10 +20,7 @@ export class AppComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    // (Opcionális) Alkalmazzuk a mentett témát induláskor
-    if (localStorage.getItem('theme') === 'light') {
-        this.toggleMode(true);
-    }
+    
   }
 
   toggleLog(state: boolean): void {
@@ -34,20 +31,7 @@ export class AppComponent implements OnInit {
     this.logService.clearLog();
   }
 
-  toggleMode(forceLight?: boolean): void {
-      const doc = document.documentElement;
-      let isLight: boolean;
 
-      if (forceLight === true) {
-          isLight = true;
-      } else {
-          isLight = doc.classList.toggle('light-mode');
-      }
-      
-      doc.classList.toggle('light-mode', isLight);
-      this.modeLabel = isLight ? '☀️ Claro' : '🌙 Modo';
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  }
   
   onReportSaved(): void {
     // Ha már fut egy timer, töröljük, hogy újrainduljon

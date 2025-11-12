@@ -1,14 +1,45 @@
-<div class="log-panel" [class.open]="isOpen" [attr.aria-hidden]="!isOpen">
-  <h2>Registro de actividad</h2>
-  
-  <div class="log-buttons-top">
-    <button (click)="onClear()" class="btn btn-clear">🧹 Limpiar registro</button>
-    <button (click)="onClose()" class="btn btn-close">← Cerrar</button>
-  </div>
-  
-  <div id="logEntries" aria-live="polite">
-    <div *ngFor="let logEntry of logs">
-      {{ logEntry }}
+<!-- 
+  JAVÍTÁS:
+  Az egészet egy <ng-container>-be csomagoltuk, ami *ngIf="isOpen" direktívát kapott.
+  Így a panel és a háttere (backdrop) TELJESEN ELTŰNIK a DOM-ból, amikor zárva van,
+  és nem blokkolja a kattintásokat.
+
+  Amikor az *ngIf beilleszti őket (mert isOpen = true), 
+  manuálisan hozzáadjuk a 'show' osztályt, hogy azonnal láthatóak legyenek.
+-->
+<ng-container *ngIf="isOpen">
+
+  <!-- Bootstrap Offcanvas (a régi .log-panel helyett) -->
+  <div class="offcanvas offcanvas-start show" 
+       tabindex="-1" 
+       id="logPanelOffcanvas" 
+       aria-labelledby="logPanelLabel"
+       style="visibility: visible;">
+    
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title" id="logPanelLabel">📋 Registro de actividad</h5>
+      <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+    </div>
+    
+    <div class="offcanvas-body">
+      <!-- Gombok -->
+      <div class="d-grid gap-2 mb-3">
+        <button (click)="onClear()" class="btn btn-outline-danger">🧹 Limpiar registro</button>
+      </div>
+
+      <!-- Log bejegyzések (Bootstrap List Group) -->
+      <div id="logEntries" class="list-group">
+        <div *ngFor="let logEntry of logs" class="list-group-item list-group-item-action p-2">
+          <small>{{ logEntry }}</small>
+        </div>
+        <div *ngIf="!logs || logs.length === 0" class="list-group-item text-muted">
+          No hay entradas en el registro.
+        </div>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- Háttér (Backdrop) a bezáráshoz -->
+  <div class="offcanvas-backdrop fade show" (click)="onClose()"></div>
+
+</ng-container>

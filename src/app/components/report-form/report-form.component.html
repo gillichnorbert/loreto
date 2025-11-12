@@ -1,96 +1,140 @@
-<div class="card" role="main" aria-labelledby="pageTitle">
-  <header>
-    <h1 id="pageTitle">DEVOLUCIONES GRUPO ETICALIDAD</h1>
-  </header>
-
-  <form [formGroup]="reportForm" (ngSubmit)="onSave()">
-    <div class="full">
-      <label for="id">ID interno</label>
-      <input id="id" type="text" formControlName="id">
+<!-- 1. Fő Kártya (Bootstrap Card) -->
+<div class="card shadow-lg" role="main" aria-labelledby="pageTitle">
+  
+  <!-- 2. Kártya Fejléc -->
+  <div class="card-header text-center ">
+    <!-- A logo animációt megtartjuk, mert az egyedi és menő -->
+    <div class="logo-wrapper py-2">
+      <img src="what.png" alt="">
     </div>
+  </div>
 
-    <div>
-      <label for="client">Cliente / Comprador</label>
-      <input id="client" type="text" placeholder="Nombre o ID del cliente" formControlName="client">
-    </div>
+  <!-- 3. Kártya Törzs (Bootstrap Űrlap Rács) -->
+  <div class="card-body p-4 p-md-5">
+    <form [formGroup]="reportForm" (ngSubmit)="onSave()" class="needs-validation" novalidate>
+      
+      <!-- Bootstrap Rács (g-3 = gutter 3) -->
+      <div class="row g-3">
 
-    <div>
-      <label for="orderNumber">Número de pedido</label>
-      <input id="orderNumber" type="text" placeholder="Ingrese el número de pedido" formControlName="orderNumber">
-    </div>
+        <!-- ID (Teljes szélesség) -->
+        <div class="col-12">
+          <label for="id" class="form-label">ID interno</label>
+          <input id="id" type="text" class="form-control" formControlName="id">
+        </div>
 
-    <div>
-      <label for="brand">Marca</label>
-      <select id="brand" formControlName="brand">
-        <option value="">Seleccione una marca</option>
-        <option value="Renault/Dacia">Renault / Dacia</option>
-        <option value="Stellantis">Stellantis</option>
-        <option value="Nissan">Nissan</option>
-        <option value="Kia">Kia</option>
-        <option value="MG">MG</option>
-        <option value="Omoda">Omoda</option>
-        <option value="Jaecoo">Jaecoo</option>
-      </select>
-    </div>
+        <!-- Kliens (Fél szélesség) -->
+        <div class="col-md-6">
+          <label for="client" class="form-label">Cliente / Comprador</label>
+          <input id="client" type="text" class="form-control" placeholder="Nombre o ID del cliente" formControlName="client">
+        </div>
 
-    <div>
-      <label for="part">Pieza</label>
-      <input id="part" type="text" placeholder="Nombre o número de pieza" formControlName="part">
-    </div>
+        <!-- Rendelési szám (Fél szélesség) -->
+        <div class="col-md-6">
+          <label for="orderNumber" class="form-label">Número de pedido</label>
+          <input id="orderNumber" type="text" class="form-control" placeholder="Ingrese el número de pedido" formControlName="orderNumber">
+        </div>
 
-    <div>
-      <label for="reason">Motivo de devolución</label>
-      <select id="reason" formControlName="reason">
-        <option value="">Seleccione el motivo</option>
-        <option value="Calidad">Calidad</option>
-        <option value="Garantía">Garantía</option>
-        <option value="Casco / Provisión">Casco / Provisión</option>
-      </select>
-    </div>
+        <!-- Márka (Fél szélesség) -->
+        <div class="col-md-6">
+          <label for="brand" class="form-label">Marca</label>
+          <select id="brand" class="form-select" formControlName="brand">
+            <option value="">Seleccione una marca</option>
+            <option value="Renault/Dacia">Renault / Dacia</option>
+            <option value="Stellantis">Stellantis</option>
+            <option value="Nissan">Nissan</option>
+            <option value="Kia">Kia</option>
+            <option value="MG">MG</option>
+            <option value="Omoda">Omoda</option>
+            <option value="Jaecoo">Jaecoo</option>
+          </select>
+        </div>
 
-    <div>
-      <label for="status">Estado</label>
-      <select id="status" formControlName="status">
-        <option value="">Seleccione el estado</option>
-        <option value="Enviado a fábrica">Enviado a fábrica</option>
-        <option value="Pagado">Pagado</option>
-        <option value="Rechazado">Rechazado</option>
-      </select>
-    </div>
+        <!-- Alkatrész (Fél szélesség) -->
+        <div class="col-md-6">
+          <label for="part" class="form-label">Pieza</label>
+          <input id="part" type="text" class="form-control" placeholder="Nombre o número de pieza" formControlName="part">
+        </div>
 
-    <div class="full">
-      <label for="comment">Comentario interno</label>
-      <textarea id="comment" placeholder="Notas internas..." formControlName="comment"></textarea>
-    </div>
+        <!-- Ok (Fél szélesség) -->
+        <div class="col-md-6">
+          <label for="reason" class="form-label">Motivo de devolución</label>
+          <select id="reason" class="form-select" formControlName="reason">
+            <option value="">Seleccione el motivo</option>
+            <option value="Calidad">Calidad</option>
+            <option value="Garantía">Garantía</option>
+            <option value="Casco / Provisión">Casco / Provisión</option>
+          </select>
+        </div>
 
-    <div class="actions full">
-      <button type="button" (click)="onSave()" class="btn">💾 Guardar reporte</button>
-      <button type="button" (click)="onExportCSV()" class="btn ghost">📁 Exportar a Excel</button>
-      <button type="button" (click)="onImportClick()" class="btn ghost">📂 Importar CSV/XLSX</button>
-      <button type="button" (click)="onArchive()" class="btn ghost">🗄️ Archivado automático</button>
-      <button type="button" (click)="onClearAll()" class="btn ghost">🧹 Borrar todo</button>
-      <button type="button" (click)="onDelete()" class="btn ghost">❌ Borrar seleccionado</button>
+        <!-- Státusz (Fél szélesség) -->
+        <div class="col-md-6">
+          <label for="status" class="form-label">Estado</label>
+          <select id="status" class="form-select" formControlName="status">
+            <option value="">Seleccione el estado</option>
+            <option value="Enviado a fábrica">Enviado a fábrica</option>
+            <option value="Pagado">Pagado</option>
+            <option value="Rechazado">Rechazado</option>
+          </select>
+        </div>
 
-      <button type="button" (click)="onExportSelectedPDF()" class="btn ghost">📄 Exportar reporte seleccionado (PDF)</button>
-      <button type="button" (click)="onExportAllPDF()" class="btn ghost">📚 Exportar todos los reportes (PDF)</button>
+        <!-- Kommentár (Teljes szélesség) -->
+        <div class="col-12">
+          <label for="comment" class="form-label">Comentario interno</label>
+          <textarea id="comment" class="form-control" placeholder="Notas internas..." formControlName="comment" rows="4"></textarea>
+        </div>
 
-      <div class="report-count">
-        📊 {{ (reports$ | async)?.length || 0 }} reportes
+        <!-- Elválasztó -->
+        <div class="col-12"><hr class="my-3"></div>
+<!-- Létező riport választó -->
+        <div class="col-12">
+          <label for="selectReport" class="form-label">Seleccionar reporte existente</label>
+          <select id="selectReport" class="form-select form-select-lg" [value]="selectedReportId" (change)="onReportSelected($event)">
+            <option value="">-- Ninguno --</option>
+            <option *ngFor="let report of (reports$ | async)" [value]="report.id">
+              {{ report.id }} — {{ report.orderNumber || 'sin pedido' }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Gombok (Actions) -->
+        <div class="col-12">
+          <div class="d-flex flex-wrap align-items-center gap-2">
+            
+            <button type="button" (click)="onSave()" class="btn btn-success btn-lg px-4">💾 Guardar</button>
+            <button type="button" (click)="onDelete()" class="btn btn-outline-danger">❌ Borrar</button>
+            <button type="button" (click)="onClearAll()" class="btn btn-outline-secondary btn-sm">🧹 Borrar todo</button>
+            
+            <!-- Riportok száma (jobbra igazítva) -->
+            <span class="badge text-bg-light ms-auto fs-6 border" style="padding: 0.6em 0.8em;">
+              📊 {{ (reports$ | async)?.length || 0 }} reportes
+            </span>
+          </div>
+        </div>
+        
+        <!-- Gomb-csoport az Importhoz/Exporthoz -->
+        <div class="col-12">
+          <div class="btn-group w-100" role="group" aria-label="Export/Import actions">
+            <button type="button" (click)="onImportClick()" class="btn btn-outline-primary">📂 Importar CSV/XLSX</button>
+            <button type="button" (click)="onExportCSV()" class="btn btn-outline-primary">📁 Exportar a Excel</button>
+            <button type="button" (click)="onExportSelectedPDF()" class="btn btn-outline-primary">📄 Exportar PDF</button>
+          </div>
+        </div>
+
+        <!-- Archiválás (Külön gomb) -->
+         <div class="col-12">
+           <button type="button" (click)="onArchive()" class="btn btn-outline-secondary btn-sm w-100">🗄️ Archivado automático</button>
+         </div>
+
+        <!-- Elválasztó -->
+        <div class="col-12"><hr class="my-3"></div>
+
+        
       </div>
-    </div>
-
-    <div class="full">
-      <label for="selectReport">Seleccionar reporte existente</label>
-      <select id="selectReport" [value]="selectedReportId" (change)="onReportSelected($event)">
-        <option value="">-- Ninguno --</option>
-        <option *ngFor="let report of (reports$ | async)" [value]="report.id">
-          {{ report.id }} — {{ report.orderNumber || 'sin pedido' }}
-        </option>
-      </select>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 
+<!-- Rejtett Fájl Input (marad) -->
 <input 
   type="file" 
   #fileInput 
