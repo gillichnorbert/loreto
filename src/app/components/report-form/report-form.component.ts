@@ -51,7 +51,7 @@ export class ReportFormComponent implements OnInit {
     this.reportForm.reset({
       id: { value: this.reportService.generateID(), disabled: true },
       client: '',
-      clientEmail: '', // ⭐️ HOZZÁADVA
+      clientEmail: '',
       orderNumber: '',
       brand: '',
       part: '',
@@ -79,7 +79,7 @@ export class ReportFormComponent implements OnInit {
   onSave(): void {
     const reportData = this.reportForm.getRawValue() as Report;
     this.reportService.saveReport(reportData);
-    this.reportSaved.emit(); // Jelez a szülőnek
+    this.reportSaved.emit();
     this.resetForm();
   }
 
@@ -91,7 +91,7 @@ export class ReportFormComponent implements OnInit {
 
   onClearAll(): void {
     this.reportService.clearAll();
-    this.resetForm(); // Az űrlap is törlődik
+    this.resetForm();
   }
   
   onArchive(): void {
