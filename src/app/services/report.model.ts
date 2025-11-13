@@ -3,6 +3,7 @@ export interface Report {
   id: string;
   orderNumber: string;
   client: string;
+  
   brand: string;
   part: string;
   reason: string;

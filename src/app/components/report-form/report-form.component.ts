@@ -155,8 +155,7 @@ export class ReportFormComponent implements OnInit {
     const subject = `Detalles de la Devolución: ${report.orderNumber || report.id}`;
     
 
-    const body = `
-Hola,
+    const body = `Hola,
 
 Adjunto los detalles de la devolución para el pedido: ${report.orderNumber || ''}
 
@@ -167,7 +166,6 @@ Adjunto los detalles de la devolución para el pedido: ${report.orderNumber || '
 
 Comentario:
 ${report.comment || 'N/A'}
-
 
 
 Saludos,
