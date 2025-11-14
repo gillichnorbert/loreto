@@ -16,10 +16,8 @@ export class ReportFormComponent implements OnInit {
   reports$: Observable<Report[]>;
   selectedReportId: string | null = null;
 
-  // Esemény, amit a szülő (AppComponent) elkaphat a mentés-villanás megjelenítéséhez
   @Output() reportSaved = new EventEmitter<void>();
 
-  // Referencia a rejtett file input-ra
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -95,17 +93,15 @@ export class ReportFormComponent implements OnInit {
   }
   
   onArchive(): void {
-    this.reportService.autoArchive(0); // 0 = manuális indítás
+    this.reportService.autoArchive(0);
   }
 
-  // --- Import/Export gombok ---
 
   onExportCSV(): void {
     this.exportService.exportToCSV();
   }
   
   onImportClick(): void {
-    // A rejtett input triggerelése
     this.fileInput.nativeElement.click();
   }
   
@@ -114,9 +110,7 @@ export class ReportFormComponent implements OnInit {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       await this.exportService.importFromFile(file);
-      // Importálás után frissítjük az űrlapot (opcionális)
-      this.resetForm();
-      // Fontos: ürítsük ki a file inputot, hogy ugyanazt a fájlt újra kiválaszthassa
+      this.resetForm(); 
       input.value = ''; 
     }
   }
@@ -134,13 +128,11 @@ export class ReportFormComponent implements OnInit {
   
   onExportAllPDF(): void {
     const allReports = this.reportService.getReportsSnapshot();
-    // Dátum szerint rendezve, ahogy az eredeti kódban
     const sorted = [...allReports].sort((a, b) => (a.timestamp || '').localeCompare(b.timestamp || ''));
     this.exportService.generateClientPDF(sorted);
   }
 
   onEmailReport(): void {
-    // 1. Ellenőrizzük, van-e kiválasztott riport
     if (!this.selectedReportId) {
       alert('Seleccione un reporte para enviar por email.');
       return;

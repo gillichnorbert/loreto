@@ -1,40 +1,31 @@
-<!-- 1. Fő Kártya (Bootstrap Card) -->
 <div class="container" role="main" aria-labelledby="pageTitle">
   
-  <!-- 2. Kártya Fejléc -->
   <div class="card-header text-center ">
-    <!-- A logo animációt megtartjuk, mert az egyedi és menő -->
     <div class="logo-wrapper py-2">
       <img src="logo-eticalidad.png" alt="logo" class="logo">
     </div>
   </div>
 
-  <!-- 3. Kártya Törzs (Bootstrap Űrlap Rács) -->
   <div class="card-body p-4 p-md-5">
     <form [formGroup]="reportForm" (ngSubmit)="onSave()" class="needs-validation" novalidate>
       
-      <!-- Bootstrap Rács (g-3 = gutter 3) -->
       <div class="row g-3">
 
-        <!-- ID (Teljes szélesség) -->
         <div class="col-12">
           <label for="id" class="form-label">ID interno</label>
           <input id="id" type="text" class="form-control" formControlName="id">
         </div>
 
-        <!-- Kliens (Fél szélesség) -->
         <div class="col-md-6">
           <label for="client" class="form-label">Cliente / Comprador</label>
           <input id="client" type="text" class="form-control" placeholder="Nombre o ID del cliente" formControlName="client">
         </div>
 
-        <!-- Rendelési szám (Fél szélesség) -->
         <div class="col-md-6">
           <label for="orderNumber" class="form-label">Número de pedido</label>
-          <input id="orderNumber" type="text" class="form-control" placeholder="Ingrese el número de pedido" formControlName="orderNumber">
+          <input id="orderNumber" type="number" class="form-control" placeholder="Ingrese el número de pedido" formControlName="orderNumber">
         </div>
 
-        <!-- Márka (Fél szélesség) -->
         <div class="col-md-6">
           <label for="brand" class="form-label">Marca</label>
           <select id="brand" class="form-select" formControlName="brand">
@@ -49,13 +40,11 @@
           </select>
         </div>
 
-        <!-- Alkatrész (Fél szélesség) -->
         <div class="col-md-6">
           <label for="part" class="form-label">Pieza</label>
           <input id="part" type="text" class="form-control" placeholder="Nombre o número de pieza" formControlName="part">
         </div>
 
-        <!-- Ok (Fél szélesség) -->
         <div class="col-md-6">
           <label for="reason" class="form-label">Motivo de devolución</label>
           <select id="reason" class="form-select" formControlName="reason">
@@ -67,7 +56,6 @@
           </select>
         </div>
 
-        <!-- Státusz (Fél szélesség) -->
         <div class="col-md-6">
           <label for="status" class="form-label">Estado</label>
           <select id="status" class="form-select" formControlName="status">
@@ -79,13 +67,11 @@
           </select>
         </div>
 
-        <!-- Kommentár (Teljes szélesség) -->
         <div class="col-12">
           <label for="comment" class="form-label">Comentario interno</label>
           <textarea id="comment" class="form-control" placeholder="Notas internas..." formControlName="comment" rows="4"></textarea>
         </div>
 
-<!-- Létező riport választó -->
         <div class="col-12">
           <label for="selectReport" class="form-label">Seleccionar reporte existente</label>
           <select id="selectReport" class="form-select" [value]="selectedReportId" (change)="onReportSelected($event)">
@@ -99,23 +85,21 @@
           <label for="clientEmail" class="form-label form-label-sm">Email del Cliente</label>
           <input id="clientEmail" type="email" class="form-control form-control-sm" placeholder="cliente@ejemplo.com" formControlName="clientEmail">
         </div>
-        <!-- Gombok (Actions) -->
+
         <div class="col-12">
           <div class="d-flex flex-wrap align-items-center gap-2">
             
             <button type="button" (click)="onSave()" class="btn btn-success btn-lg px-4">💾 Guardar</button>
             <button type="button" (click)="onDelete()" class="btn btn-outline-danger">❌ Borrar</button>
             <button type="button" (click)="onClearAll()" class="btn btn-outline-secondary btn-sm">🧹 Borrar todo</button>
-            <button type="button" (click)="onEmailReport()" class="btn btn-outline-info" title="Enviar por Email">📧 Email</button>
+            <button type="button" (click)="onEmailReport()" class="btn btn-outline-info" title="Enviar por Email" *ngIf="selectedReportId">📧 Email</button>
             
-            <!-- Riportok száma (jobbra igazítva) -->
             <span class="badge text-bg-light ms-auto fs-6 border" style="padding: 0.6em 0.8em;">
               📊 {{ (reports$ | async)?.length || 0 }} reportes
             </span>
           </div>
         </div>
         
-        <!-- Gomb-csoport az Importhoz/Exporthoz -->
         <div class="col-12">
           <div class="btn-group w-100" role="group" aria-label="Export/Import actions">
             <button type="button" (click)="onImportClick()" class="btn btn-outline-primary">📂 Importar CSV/XLSX</button>
@@ -124,7 +108,6 @@
           </div>
         </div>
 
-        <!-- Archiválás (Külön gomb) -->
          <div class="col-12">
            <button type="button" (click)="onArchive()" class="btn btn-outline-secondary btn-sm w-100">🗄️ Archivado automático</button>
          </div>
@@ -136,7 +119,6 @@
   </div>
 </div>
 
-<!-- Rejtett Fájl Input (marad) -->
 <input 
   type="file" 
   #fileInput 

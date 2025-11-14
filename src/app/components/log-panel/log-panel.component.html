@@ -11,12 +11,10 @@
     </div>
     
     <div class="offcanvas-body">
-      <!-- Gombok -->
       <div class="d-grid gap-2 mb-3">
         <button (click)="onClear()" class="btn btn-outline-danger">🧹 Limpiar registro</button>
       </div>
 
-      <!-- Log bejegyzések (Bootstrap List Group) -->
       <div id="logEntries" class="list-group">
         <div *ngFor="let logEntry of logs" class="list-group-item list-group-item-action p-2">
           <small>{{ logEntry }}</small>
@@ -28,7 +26,6 @@
     </div>
   </div>
 
-  <!-- Háttér (Backdrop) a bezáráshoz -->
   <div class="offcanvas-backdrop fade show" (click)="onClose()"></div>
 
 </ng-container>

@@ -27,6 +27,7 @@ yarn-error.log
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+release/*
 
 # Miscellaneous
 /.angular/cache
@@ -36,6 +37,8 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+release/LoretoMotor Devoluciones-0.3.1-arm64.dmg
+
 
 # System files
 .DS_Store
